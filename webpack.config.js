@@ -20,6 +20,15 @@ module.exports = {
                 // use 数组里面 Loader 执行顺序是从右到左
                 use: ["style-loader", "css-loader", "less-loader"],
             },
+            {
+                test: /\.(png|jpe?g|gif|webp)$/,
+                type: "asset",
+                parser: {
+                    dataUrlCondition: {
+                        maxSize: 10 * 1024 // 小于10kb的图片会被base64处理
+                    }
+                }
+            },
         ],
     },
 }
