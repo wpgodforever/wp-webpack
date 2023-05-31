@@ -3,8 +3,9 @@ module.exports = {
     mode: 'development',    // 开发模式
     entry: './main.js',
     output: {
-        filename: 'output.js',      // 打包后的文件名称
-        path: path.resolve(__dirname, 'dist')  // 打包后的目录
+        filename: "static/js/main.js", // 将 js 文件输出到 static/js 目录中
+        path: path.resolve(__dirname, 'dist'),  // 打包后的目录
+        clean: true, // 自动将上次打包目录资源清空
     },
     module: {
         rules: [
@@ -22,12 +23,15 @@ module.exports = {
             },
             {
                 test: /\.(png|jpe?g|gif|webp)$/,
-                type: "asset",
-                parser: {
-                    dataUrlCondition: {
-                        maxSize: 10 * 1024 // 小于10kb的图片会被base64处理
-                    }
-                }
+                type: "asset/resource",
+                generator: {
+                    // 将图片文件输出到 static/imgs 目录中
+                    // 将图片文件命名 [hash:8][ext][query]
+                    // [hash:8]: hash值取8位
+                    // [ext]: 使用之前的文件扩展名
+                    // [query]: 添加之前的query参数
+                    filename: "static/images/[hash:8][ext][query]",
+                  },
             },
         ],
     },
